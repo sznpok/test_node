@@ -1,32 +1,19 @@
-const http = require("http");
 const fs = require("fs");
 const index = fs.readFileSync("index.html", "utf-8");
 const data = JSON.parse(fs.readFileSync("data.json", "utf-8"));
-const prod = data.products;
 
-console.log(prod);
-//const data = { age: 5 };
-const server = http.createServer((req, res) => {
-  console.log(req.url);
-  switch (req.url) {
-    case "/":
-      res.setHeader("Content-Type", "text/html");
-      res.end(index);
-      break;
-    case "/api":
-      res.setHeader("Content-Type", "application/json");
-      if (req.url.startsWith("/product")) {
-        const id = req.url.split("/")[2];
-        const prod = products.find((p) => p.id === +id);
+const express = require("express");
+const server = express();
 
-        console.log(prod);
-      }
-      res.end(data);
-      break;
-    default:
-      res.writeHead(404, "Not Found");
-      res.end();
-  }
+server.get("/", (req, res) => {
+  //res.send("<h1>Sijan Pokharel </h1>");
+  //res.sendFile("/Users/sijanpokharel/Documents/testnode/index.html");
+  //res.json(data);
+  // res.sendStatus(404);
+  //  res.status(200).send(data);
+});
+
+//this one at the end always
+server.listen(8080, () => {
   console.log("Server started ");
 });
-server.listen(8080);

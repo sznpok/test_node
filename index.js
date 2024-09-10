@@ -63,25 +63,29 @@ server.get("/products/:id", (req, res) => {
 });
 
 //Update put /proudcts/:id
-
 server.put("/products/:id", (req, res) => {
   const id = +req.params.id;
-  const product = products.find((p) => p.id === id);
-  res.json({ type: "PUT" });
-});
-server.delete("/", (req, res) => {
-  res.json({ type: "DELETE" });
-});
-server.patch("/", (req, res) => {
-  res.json({ type: "PATCH " });
+  const productIndex = products.findIndex((p) => p.id === id);
+  products.splice(productIndex, 1, { ...req.body, id: id });
+  res.status(201).json();
 });
 
-server.get("/prod", (req, res) => {
-  //res.send("<h1>Sijan Pokharel </h1>");
-  //res.sendFile("/Users/sijanpokharel/Documents/testnode/index.html");
-  //res.json(data);
-  // res.sendStatus(404);
-  //  res.status(200).send(data);
+//Update Patch /products/:id
+server.patch("/products/:id", (req, res) => {
+  const id = +req.params.id;
+  const productIndex = products.findIndex((p) => p.id === id);
+  const product = products[productIndex];
+  products.splice(productIndex, 1, { ...product, ...req.body });
+  res.status(201).json();
+});
+
+//Delete  Delete /products/:id
+server.delete("/products/:id", (req, res) => {
+  const id = +req.params.id;
+  const productIndex = products.findIndex((p) => p.id === id);
+  const product = products[productIndex];
+  products.splice(productIndex, 1);
+  res.status(201).json(product);
 });
 
 //this one at the end always
